@@ -9,6 +9,7 @@ from datasets import camvid
 from datasets import bdd100k
 from datasets import gtav
 from datasets import nullloader
+from datasets import darkzurich
 
 from datasets import multi_loader
 from datasets.sampler import DistributedSampler

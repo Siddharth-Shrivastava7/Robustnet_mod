@@ -163,7 +163,8 @@ def make_dataset(mode, maxSkip=0, cv_split=0):
     img_dir_name = 'images'
     img_path = os.path.join(root, img_dir_name)
     mask_path = os.path.join(root, 'labels')
-    mask_postfix = '_train_id.png'
+    # mask_postfix = '_train_id.png'
+    mask_postfix = '.png' # changed 
     # cv_splits = make_cv_splits(img_dir_name)
     if mode == 'trainval':
         modes = ['train', 'val']
@@ -245,7 +246,7 @@ class BDD100K(data.Dataset):
         for k, v in trainid_to_trainid.items():
             mask_copy[mask == k] = v
 
-        if self.eval_mode:
+        if self.eval_mode == 'pooling':
             return [transforms.ToTensor()(img)], self._eval_get_item(img, mask_copy,
                                                                      self.eval_scales,
                                                                      self.eval_flip), img_name
@@ -262,13 +263,14 @@ class BDD100K(data.Dataset):
 
         rgb_mean_std_gt = ([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
         img_gt = transforms.Normalize(*rgb_mean_std_gt)(img)
-
-        rgb_mean_std = ([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        if self.image_in:
-            eps = 1e-5
-            rgb_mean_std = ([torch.mean(img[0]), torch.mean(img[1]), torch.mean(img[2])],
-                    [torch.std(img[0])+eps, torch.std(img[1])+eps, torch.std(img[2])+eps])
-        img = transforms.Normalize(*rgb_mean_std)(img)
+        
+        if not self.eval_mode:
+            rgb_mean_std = ([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            if self.image_in:
+                eps = 1e-5
+                rgb_mean_std = ([torch.mean(img[0]), torch.mean(img[1]), torch.mean(img[2])],
+                        [torch.std(img[0])+eps, torch.std(img[1])+eps, torch.std(img[2])+eps])
+            img = transforms.Normalize(*rgb_mean_std)(img)
 
         if self.target_aux_transform is not None:
             mask_aux = self.target_aux_transform(mask)
