@@ -5,7 +5,7 @@ from tqdm import tqdm
 import datasets.cityscapes_labels as cityscapes_labels
 id_to_trainid = cityscapes_labels.label2trainid
 
-src_path = '/home/sidd_s/scratch/results/robustnet/saved_models/val/pred'
+src_path = '/home/sidd_s/scratch/results/robustnet/darkzurich/val/pred'
 src_files = []
 dest_path = src_path.replace('pred', 'pred_trainids')
 if not os.path.exists(dest_path):
