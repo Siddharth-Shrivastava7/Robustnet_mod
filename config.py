@@ -68,14 +68,14 @@ __C.STRICTBORDERCLASS = None
 #Attribute Dictionary for Dataset
 __C.DATASET = AttrDict()
 #Cityscapes Dir Location
-__C.DATASET.CITYSCAPES_DIR = '/data/davian/segmentation/cityscapes'
+__C.DATASET.CITYSCAPES_DIR = '/home/sidd_s/scratch/dataset/cityscapes'
 #SDC Augmented Cityscapes Dir Location
 __C.DATASET.CITYSCAPES_AUG_DIR = ''
 #Mapillary Dataset Dir Location
 __C.DATASET.MAPILLARY_DIR = '/data/davian/segmentation/mapillary'
 #GTAV, BDD100K Dataset Dir Location
 __C.DATASET.GTAV_DIR = '/data/davian/segmentation/gtav'
-__C.DATASET.BDD_DIR = '/data/davian/segmentation/bdd100k/bdd100k/seg'
+__C.DATASET.BDD_DIR = '/home/sidd_s/scratch/dataset/bdd100k_seg/bdd100k/seg'
 #Synthia Dataset Dir Location
 __C.DATASET.SYNTHIA_DIR = '/data/davian/segmentation/synthia'
 #Kitti Dataset Dir Location
