@@ -61,8 +61,8 @@ def add_items(items, aug_items, cities, img_path, mask_path, mask_postfix, mode,
             ###### dataset augmentation ############################
             ########################################################
             if mode == "train" and maxSkip > 0:
-                new_img_path = os.path.join(aug_root, 'leftImg8bit_trainvaltest', 'leftImg8bit')
-                new_mask_path = os.path.join(aug_root, 'gtFine_trainvaltest', 'gtFine')
+                new_img_path = os.path.join(aug_root,  'leftImg8bit')
+                new_mask_path = os.path.join(aug_root, 'gtFine')
                 file_info = it.split("_")
                 cur_seq_id = file_info[-1]
 
@@ -88,8 +88,8 @@ def make_cv_splits(img_dir_name):
     A split is a lists of cities.
     split0 is aligned with the default Cityscapes train/val.
     """
-    trn_path = os.path.join(root, img_dir_name, 'leftImg8bit', 'train')
-    val_path = os.path.join(root, img_dir_name, 'leftImg8bit', 'val')
+    trn_path = os.path.join(root,  'leftImg8bit', 'train')
+    val_path = os.path.join(root, 'leftImg8bit', 'val')
 
     trn_cities = ['train/' + c for c in os.listdir(trn_path)]
     val_cities = ['val/' + c for c in os.listdir(val_path)]
@@ -133,7 +133,7 @@ def make_split_coarse(img_path):
 
 
 def make_test_split(img_dir_name):
-    test_path = os.path.join(root, img_dir_name, 'leftImg8bit', 'test')
+    test_path = os.path.join(root, 'leftImg8bit', 'test')
     test_cities = ['test/' + c for c in os.listdir(test_path)]
 
     return test_cities
@@ -167,8 +167,8 @@ def make_dataset(quality, mode, maxSkip=0, fine_coarse_mult=6, cv_split=0):
     elif quality == 'fine':
         assert mode in ['train', 'val', 'test', 'trainval']
         img_dir_name = 'leftImg8bit_trainvaltest'
-        img_path = os.path.join(root, img_dir_name, 'leftImg8bit')
-        mask_path = os.path.join(root, 'gtFine_trainvaltest', 'gtFine')
+        img_path = os.path.join(root, 'leftImg8bit')
+        mask_path = os.path.join(root, 'gtFine')
         mask_postfix = '_gtFine_labelIds.png'
         cv_splits = make_cv_splits(img_dir_name)
         if mode == 'trainval':
