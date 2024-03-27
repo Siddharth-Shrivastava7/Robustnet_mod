@@ -5,7 +5,7 @@ set -o nounset
 echo "Running inference on" ${1}
 echo "Saving Results :" ${2}
 
-python -m torch.distributed.launch --nproc_per_node=1 eval_mod.py \
+python -m torch.distributed.launch --nproc_per_node=2 eval.py \
     --dataset cityscapes \
     --arch network.deepv3.DeepR50V3PlusD \
     --inference_mode sliding \

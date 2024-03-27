@@ -68,7 +68,7 @@ __C.STRICTBORDERCLASS = None
 #Attribute Dictionary for Dataset
 __C.DATASET = AttrDict()
 #Cityscapes Dir Location
-__C.DATASET.CITYSCAPES_DIR = '/home/sidd_s/scratch/dataset/cityscapes'
+__C.DATASET.CITYSCAPES_DIR = '/raid/ai24resch01002/datasets/cityscapes'
 #SDC Augmented Cityscapes Dir Location
 __C.DATASET.CITYSCAPES_AUG_DIR = ''
 #Mapillary Dataset Dir Location
