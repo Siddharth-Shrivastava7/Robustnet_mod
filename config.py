@@ -87,7 +87,7 @@ __C.DATASET.CAMVID_DIR = '/home/nas_datasets/segmentation/SegNet-Tutorial/CamVid
 #Number of splits to support
 __C.DATASET.CV_SPLITS = 3
 #DarkZurich Dir Location
-__C.DATASET.DARKZURICH_DIR = '/home/sidd_s/scratch/dataset/dark_zurich'
+__C.DATASET.DARKZURICH_DIR = '/raid/ai24resch01002/datasets/darkzurich'
 
 
 __C.MODEL = AttrDict()
