@@ -10,7 +10,7 @@ python -m torch.distributed.launch --nproc_per_node=2 eval.py \
     --arch network.deepv3.DeepR50V3PlusD \
     --inference_mode sliding \
     --scales 0.5,1.0,2.0 \
-    --split val \
+    --split train \
     --crop_size 1024 \
     --cv_split 0 \
     --ckpt_path ${2} \
