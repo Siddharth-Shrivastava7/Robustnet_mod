@@ -5,12 +5,12 @@ set -o nounset
 echo "Running inference on" ${1}
 echo "Saving Results :" ${2}
 
-python -m torch.distributed.launch --nproc_per_node=2 eval.py \
+python -m torch.distributed.launch --nproc_per_node=2 eval_train_mod.py \
     --dataset cityscapes \
     --arch network.deepv3.DeepR50V3PlusD \
     --inference_mode sliding \
     --scales 0.5,1.0,2.0 \
-    --split val \
+    --split train \
     --crop_size 1024 \
     --cv_split 0 \
     --ckpt_path ${2} \

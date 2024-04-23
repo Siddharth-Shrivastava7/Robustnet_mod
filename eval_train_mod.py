@@ -521,8 +521,8 @@ class RunEval():
             colorized.save(col_img_name)
             blend = Image.blend(img.convert("RGBA"), colorized.convert("RGBA"), 0.5)
             blend.save(compose_img_name)
-            ## saving the logits! (resized logits: shape (256x512), cause this shape will be used in validation)
-            resized_prediction_pre_argmax = F.interpolate(torch.tensor(prediction_pre_argmax).unsqueeze(dim=0), size=(256,512), mode='bilinear', align_corners=False)
+            ## saving the logits! (resized logits: shape (128x256), cause this shape will be used in training)
+            resized_prediction_pre_argmax = F.interpolate(torch.tensor(prediction_pre_argmax).unsqueeze(dim=0), size=(128,256), mode='bilinear', align_corners=False)
             torch.save(resized_prediction_pre_argmax, logits_img_name)
 
             if gt is not None:
