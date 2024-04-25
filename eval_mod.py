@@ -23,6 +23,7 @@ import torch
 import torchvision.transforms as transforms
 import numpy as np
 import transforms.transforms as extended_transforms
+import torch.nn.functional as F
 
 from config import assert_and_infer_cfg
 from datasets import cityscapes, bdd100k, darkzurich
@@ -490,6 +491,8 @@ class RunEval():
         self.pred_path = os.path.join(output_dir, 'pred')
         self.diff_path = os.path.join(output_dir, 'diff')
         self.compose_path = os.path.join(output_dir, 'compose')
+        ## can remove the logits saving (later) 
+        self.logits_path = os.path.join(output_dir, 'logits_path')
         self.metrics = metrics
 
         self.write_image = write_image
@@ -500,6 +503,7 @@ class RunEval():
         os.makedirs(self.pred_path, exist_ok=True)
         os.makedirs(self.diff_path, exist_ok=True)
         os.makedirs(self.compose_path, exist_ok=True)
+        os.makedirs(self.logits_path, exist_ok=True)
 
         if self.metrics:
             self.hist = np.zeros((self.dataset_cls.num_classes,
@@ -523,6 +527,7 @@ class RunEval():
         pred_img_name = '{}/{}.png'.format(self.pred_path, self.img_name)
         diff_img_name = '{}/{}_diff.png'.format(self.diff_path, self.img_name)
         compose_img_name = '{}/{}_compose.png'.format(self.compose_path, self.img_name)
+        logits_img_name = '{}/{}_logits.pt'.format(self.logits_path, self.img_name)
         to_pil = transforms.ToPILImage()
         if self.inference_mode == 'pooling':
             img = imgs
@@ -536,6 +541,7 @@ class RunEval():
             prediction = np.concatenate(prediction, axis=0)
         else:
             prediction_pre_argmax = np.mean(prediction_pre_argmax_collection, axis=0)
+            # print('>>>>>>>>>>>>>>', prediction_pre_argmax.shape, prediction_pre_argmax.max(), prediction_pre_argmax.min()) # (19, 1024, 2048) 17.03226398428281 -5.9295103040834265
             prediction = np.argmax(prediction_pre_argmax, axis=0)
 
         if self.metrics:
@@ -550,12 +556,16 @@ class RunEval():
         # Dump Images
         ######################################################################
         if self.write_image:
+
             if self.inference_mode == 'pooling':
                 img = pool_base_img
             colorized = self.dataset_cls.colorize_mask(prediction)
             colorized.save(col_img_name)
             blend = Image.blend(img.convert("RGBA"), colorized.convert("RGBA"), 0.5)
             blend.save(compose_img_name)
+            ## saving the logits! (resized logits: shape (256x512), cause this shape will be used in validation)
+            resized_prediction_pre_argmax = F.interpolate(torch.tensor(prediction_pre_argmax).unsqueeze(dim=0), size=(256,512), mode='bilinear', align_corners=False)
+            torch.save(resized_prediction_pre_argmax, logits_img_name)
 
             if gt is not None:
                 gt = gt[0].cpu().numpy()
